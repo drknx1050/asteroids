@@ -14,9 +14,17 @@ Screen height: {SCREEN_HEIGHT}""")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     
-    # creates an infinite loop that the game runs in
+    # creates groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # adds player class to updatable and drawable group
+    Player.containers = (updatable, drawable)
+    # initializes player instance
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    # creates an infinite game loop
     while True:
         log_state()
         for event in pygame.event.get():
@@ -26,9 +34,12 @@ Screen height: {SCREEN_HEIGHT}""")
         screen.fill("black")
         dt = clock.tick() / 1000
         
-        # updates player's state and then draws player
-        player.update(dt)
-        player.draw(screen)
+        # updates updatables
+        updatable.update(dt)
+
+        # draws drawables
+        for item in drawable:
+            item.draw(screen)
         
         # draws the frame
         pygame.display.flip()
