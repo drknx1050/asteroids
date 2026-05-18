@@ -6,6 +6,7 @@ from player import Player
 
 
 def main():
+    # initializes game
     print(f"""Starting Asteroids with pygame version: {pygame.version.ver}
 Screen width: {SCREEN_WIDTH}
 Screen height: {SCREEN_HEIGHT}""")
@@ -14,15 +15,25 @@ Screen height: {SCREEN_HEIGHT}""")
     clock = pygame.time.Clock()
     dt = 0
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    
+    # creates an infinite loop that the game runs in
     while True:
         log_state()
         for event in pygame.event.get():
             pass
+        
+        # draws background and calculates delta time
         screen.fill("black")
         dt = clock.tick() / 1000
+        
+        # updates player's state and then draws player
         player.update(dt)
         player.draw(screen)
+        
+        # draws the frame
         pygame.display.flip()
+        
+        # allows the exit button to function
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
